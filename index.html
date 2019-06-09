@@ -72,24 +72,24 @@
 		<script>
 			var scene = new THREE.Scene();
 
-			scene.background = new THREE.Color(0xffffff);
-
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
  
 			var renderer = new THREE.WebGLRenderer({ alpha : true });
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
- 
+			renderer.setClearColor( 0x000000, 0 );
+
 			camera.position.z = 10;
  
 			var controls = new THREE.OrbitControls(camera, renderer.domElement);
 			controls.enableDamping = true;
 			controls.dampingFactor = 0.25;
 			controls.autoRotate = true;
+			controls.autoRotateSpeed = 0.1;
 			controls.enablePan = false;
 			controls.enableZoom = false;
-			controls.maxPolarAngle = 0;
-			controls.minPolarAngle = 0;
+			controls.maxPolarAngle = Math.PI / 2;
+			controls.minPolarAngle = Math.PI / 2;
 
 			var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
 			keyLight.position.set(-100, 0, 100);
