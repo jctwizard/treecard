@@ -9,11 +9,74 @@
 		<script src="OBJLoader.js"></script>
 		<script src="OrbitControls.js"></script>
 
+		<style>
+			body {
+				width: 100wh;
+				height: 90vh;
+				color: #fff;
+				background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+				background-size: 400% 400%;
+				-webkit-animation: Gradient 15s ease infinite;
+				-moz-animation: Gradient 15s ease infinite;
+				animation: Gradient 15s ease infinite;
+			}
+
+			@-webkit-keyframes Gradient {
+				0% {
+					background-position: 0% 50%
+				}
+				50% {
+					background-position: 100% 50%
+				}
+				100% {
+					background-position: 0% 50%
+				}
+			}
+
+			@-moz-keyframes Gradient {
+				0% {
+					background-position: 0% 50%
+				}
+				50% {
+					background-position: 100% 50%
+				}
+				100% {
+					background-position: 0% 50%
+				}
+			}
+
+			@keyframes Gradient {
+				0% {
+					background-position: 0% 50%
+				}
+				50% {
+					background-position: 100% 50%
+				}
+				100% {
+					background-position: 0% 50%
+				}
+			}
+
+			h1,
+			h6 {
+				font-family: 'Open Sans';
+				font-weight: 300;
+				text-align: center;
+				position: absolute;
+				top: 45%;
+				right: 0;
+				left: 0;
+			}
+		</style>
+
 		<script>
 			var scene = new THREE.Scene();
+
+			scene.background = new THREE.Color(0xffffff);
+
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
  
-			var renderer = new THREE.WebGLRenderer();
+			var renderer = new THREE.WebGLRenderer({ alpha : true });
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
  
@@ -22,7 +85,11 @@
 			var controls = new THREE.OrbitControls(camera, renderer.domElement);
 			controls.enableDamping = true;
 			controls.dampingFactor = 0.25;
-			controls.enableZoom = true;
+			controls.autoRotate = true;
+			controls.enablePan = false;
+			controls.enableZoom = false;
+			controls.maxPolarAngle = 0;
+			controls.minPolarAngle = 0;
 
 			var keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
 			keyLight.position.set(-100, 0, 100);
@@ -33,9 +100,12 @@
 			var backLight = new THREE.DirectionalLight(0xffffff, 1.0);
 			backLight.position.set(100, 0, -100).normalize();
  
+			var ambientlight = new THREE.AmbientLight(0x404060);
+
 			scene.add(keyLight);
 			scene.add(fillLight);
 			scene.add(backLight);
+			scene.add(ambientlight);
 
 			var mtlLoader = new THREE.MTLLoader();
 			mtlLoader.setResourcePath('/treecard/');
